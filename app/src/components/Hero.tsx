@@ -12,7 +12,7 @@ export function Hero({ title }: { title: string }) {
       flex="1"
       bgGradient="linear(to-l, heroGradientStart, heroGradientEnd)"
       bgClip="text"
-      pt={[16, 10]}
+      py={[16, 10]}
     >
       <Icon as={collections[activeCollectionIndex].icon} width="100%" h="100px" />
     </Flex>

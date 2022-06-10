@@ -1,10 +1,10 @@
-import { Box, Select, Stack, StackProps } from '@chakra-ui/react'
+import { Center, Spinner, Stack, StackProps } from '@chakra-ui/react'
 import { useCallback } from 'react'
 import { useAppContext } from '../context/AppContext'
 import { DisplayNFT } from './DisplayNFT'
 
 export const Main = (props: StackProps) => {
-  const { setActiveCollectionIndex } = useAppContext()
+  const { setActiveCollectionIndex, loading } = useAppContext()
 
   const handleCollectionChange = useCallback(
     (e: any) => {
@@ -23,7 +23,13 @@ export const Main = (props: StackProps) => {
         ))}
       </Select> */}
 
-      <DisplayNFT />
+      {loading && (
+        <Center pos="absolute" inset={0}>
+          <Spinner size="xl" />
+        </Center>
+      )}
+
+      {!loading && <DisplayNFT />}
     </Stack>
   )
 }

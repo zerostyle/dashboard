@@ -15,10 +15,12 @@ const swipePower = (offset: number, velocity: number) => {
 }
 
 export function DisplayNFT({ initial = 0 }: { initial?: number }) {
-  const { collection, loading } = useAppContext()
+  const { collectionList, loading } = useAppContext()
 
   const [loaded, setLoaded] = useState<boolean>(false)
   const [index, setIndex] = useState<number>(0)
+  const active = collectionList[index]
+
   const [sliderRef, slider] = useKeenSlider<HTMLDivElement>({
     initial,
     loop: true,
@@ -46,31 +48,25 @@ export function DisplayNFT({ initial = 0 }: { initial?: number }) {
     [slider],
   )
 
-  console.log(collection?.tokens)
-
   return (
     <Center position="relative" w="100%" h="100%">
       <Box position="relative" overflow="hidden" w="100%" h="100%" maxW="70vmin" maxH="70vmin">
-        {/* <Center pos="absolute" inset={0}>
-          <Spinner size="xl" />
-        </Center> */}
-
         <Flex ref={sliderRef} className="keen-slider">
-          {!!collection?.tokens?.length &&
-            collection.tokens
-              .reverse()
-              .map(({ token }, i) => (
+          {!!collectionList?.length &&
+            collectionList.map(({ token }, i) => {
+              return (
                 <MotionImage
-                  key={i}
+                  key={token?.metadata?.name}
                   className="keen-slider__slide"
+                  src={token?.metadata?.image}
                   pos="relative"
-                  src={token?.image?.url}
                   w="70vmin"
                   h="70vmin"
                   objectFit="cover"
                   objectPosition="center"
                 />
-              ))}
+              )
+            })}
         </Flex>
       </Box>
 
@@ -79,7 +75,7 @@ export function DisplayNFT({ initial = 0 }: { initial?: number }) {
           <Button onClick={handlePrev}>
             <Icon as={FaChevronLeft} />
           </Button>
-          {/* <Text>{token?.name}</Text> */}
+          <Text>{active?.token?.metadata?.name}</Text>
           <Button onClick={handleNext}>
             <Icon as={FaChevronRight} />
           </Button>

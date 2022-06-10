@@ -7,6 +7,7 @@ import { ZDK, ZDKNetwork, ZDKChain } from '@zoralabs/zdk'
 import { useEffect, useState } from 'react'
 import { collections } from '../constants/collections'
 import { useAppContext } from '../context/AppContext'
+import { getNounsData } from '../fetchers/zoraFetcher'
 
 const networkInfo = {
   network: ZDKNetwork.Ethereum,
@@ -28,15 +29,10 @@ function Index(props) {
   useEffect(() => {
     const getCollection = async () => {
       setLoading(true)
-      const data = await zdk.collection({ address: collections[activeCollectionIndex].address })
 
-      const tokens = await zdk.tokens({
-        where: { collectionAddresses: [collections[activeCollectionIndex].address] },
-      })
+      const nouns = await getNounsData()
 
-      console.log('tokens: ', tokens)
-
-      setCollection({ ...data, tokens: tokens?.tokens?.nodes })
+      setCollection({ tokens: nouns })
       setLoading(false)
     }
 
