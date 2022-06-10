@@ -1,4 +1,4 @@
-import { Flex, Spinner, Icon, Center } from '@chakra-ui/react'
+import { Flex, Icon } from '@chakra-ui/react'
 import { collections } from '../constants/collections'
 import { useAppContext } from '../context/AppContext'
 
@@ -12,14 +12,9 @@ export function Hero({ title }: { title: string }) {
       flex="1"
       bgGradient="linear(to-l, heroGradientStart, heroGradientEnd)"
       bgClip="text"
-      pt={10}
+      pt={[16, 10]}
     >
-      {loading && (
-        <Center w="100px" h="100px">
-          <Spinner thickness="4px" speed="0.65s" emptyColor="gray.200" color="blue.500" size="xl" />
-        </Center>
-      )}
-      {!loading && <Icon as={collections[activeCollectionIndex].icon} width="100%" h="100px" />}
+      <Icon as={collections[activeCollectionIndex].icon} width="100%" h="100px" />
     </Flex>
   )
 }

@@ -24,14 +24,19 @@ const zdk = new ZDK(args)
 
 function Index(props) {
   const { activeCollectionIndex, collection, setCollection, setLoading } = useAppContext()
-  console.log('collection: ', collection)
 
   useEffect(() => {
     const getCollection = async () => {
       setLoading(true)
       const data = await zdk.collection({ address: collections[activeCollectionIndex].address })
-      console.log('data: ', data)
-      setCollection(data)
+
+      const tokens = await zdk.tokens({
+        where: { collectionAddresses: [collections[activeCollectionIndex].address] },
+      })
+
+      console.log('tokens: ', tokens)
+
+      setCollection({ ...data, tokens: tokens?.tokens?.nodes })
       setLoading(false)
     }
 
