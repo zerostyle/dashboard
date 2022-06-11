@@ -5,7 +5,9 @@ import { DarkModeSwitch } from '../components/DarkModeSwitch'
 import { Footer } from '../components/Footer'
 import { ZDK, ZDKNetwork, ZDKChain } from '@zoralabs/zdk'
 import { useEffect, useState } from 'react'
-import { Collection } from '@zoralabs/zdk/dist/queries/queries-sdk'
+import { collections } from '../constants/collections'
+import { useAppContext } from '../context/AppContext'
+import { getNounsData } from '../fetchers/zoraFetcher'
 
 const networkInfo = {
   network: ZDKNetwork.Ethereum,
@@ -19,21 +21,23 @@ const args = {
   apiKey: process.env.API_KEY,
 }
 
-const zdk = new ZDK(args) // All arguments are optional
-
-const NOUNS = '0x9C8fF314C9Bc7F6e59A9d9225Fb22946427eDC03'
+const zdk = new ZDK(args)
 
 function Index(props) {
-  const [collection, setCollection] = useState<Collection>()
+  const { activeCollectionIndex, collection, setCollection, setLoading } = useAppContext()
 
   useEffect(() => {
     const getCollection = async () => {
-      const data = await zdk.collection({ address: NOUNS })
-      setCollection(data)
+      setLoading(true)
+
+      const nouns = await getNounsData()
+
+      setCollection({ tokens: nouns })
+      setLoading(false)
     }
 
     getCollection()
-  }, [])
+  }, [activeCollectionIndex])
 
   return (
     <Container flex={1}>
