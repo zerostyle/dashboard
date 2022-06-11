@@ -19,15 +19,17 @@ function findDate(collectionList: any[], date: Date) {
 
 export const Main = (props: StackProps) => {
   const { loading, collectionList, index, setIndex, minDate, maxDate, error } = useAppContext()
-  const [value, onChange] = useState(new Date())
+
+  const active = collectionList[index]
+  const date = active?.mint?.transactionInfo?.blockTimestamp
+  const value = date ? new Date(date) : new Date()
 
   const handleChange = useCallback(
     (value) => {
       const newIndex = findDate(collectionList, new Date(value))
       if (newIndex !== -1) setIndex(newIndex)
-      onChange(value)
     },
-    [collectionList, setIndex, onChange],
+    [collectionList, setIndex],
   )
 
   return (

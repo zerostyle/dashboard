@@ -2,6 +2,8 @@ import { first, last, sortBy } from 'lodash'
 import { createContext, useContext, useMemo, useState } from 'react'
 export const AppContext = createContext(null)
 
+const initialized = false
+
 export const AppProvider = ({ children }) => {
   const [activeCollectionIndex, setActiveCollectionIndex] = useState<number>(0)
   const [index, setIndex] = useState<number>(0)
@@ -12,7 +14,12 @@ export const AppProvider = ({ children }) => {
   const collectionList = useMemo(() => {
     if (!collection) return []
     const list = Object.keys(collection?.tokens).map((id) => first(collection?.tokens[id]))
-    return sortBy(list, ['mint.transactionInfo.blockTimestamp'])
+    const sorted = sortBy(list, ['mint.transactionInfo.blockTimestamp'])
+    if (!initialized) {
+      setIndex(sorted.length - 1)
+    }
+
+    return sorted
   }, [collection])
 
   const minDate = useMemo(() => first(collectionList)?.mint?.transactionInfo?.blockTimestamp, [collectionList])
