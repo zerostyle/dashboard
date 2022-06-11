@@ -1,4 +1,4 @@
-import { Center, Spinner, Stack, StackProps } from '@chakra-ui/react'
+import { Center, Heading, Spinner, Stack, StackProps } from '@chakra-ui/react'
 import { useMemo, useState, useCallback } from 'react'
 import { useAppContext } from '../context/AppContext'
 import { DisplayNFT } from './DisplayNFT'
@@ -18,12 +18,11 @@ function findDate(collectionList: any[], date: Date) {
 }
 
 export const Main = (props: StackProps) => {
-  const { loading, collectionList, index, setIndex, minDate, maxDate } = useAppContext()
+  const { loading, collectionList, index, setIndex, minDate, maxDate, error } = useAppContext()
   const [value, onChange] = useState(new Date())
 
   const handleChange = useCallback(
     (value) => {
-      console.log('handleChange')
       const newIndex = findDate(collectionList, new Date(value))
       if (newIndex !== -1) setIndex(newIndex)
       onChange(value)
@@ -39,7 +38,15 @@ export const Main = (props: StackProps) => {
         </Center>
       )}
 
-      {!loading && (
+      {error && (
+        <Heading textAlign="center">
+          Something went wrong.
+          <br />
+          Please try again later.
+        </Heading>
+      )}
+
+      {!loading && !error && (
         <>
           <DatePicker onChange={handleChange} value={value} minDate={new Date(minDate)} maxDate={new Date(maxDate)} />
 

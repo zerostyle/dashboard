@@ -4,8 +4,7 @@ import { Main } from '../components/Main'
 import { DarkModeSwitch } from '../components/DarkModeSwitch'
 import { Footer } from '../components/Footer'
 import { ZDK, ZDKNetwork, ZDKChain } from '@zoralabs/zdk'
-import { useEffect, useState } from 'react'
-import { collections } from '../constants/collections'
+import { useEffect, useCallback } from 'react'
 import { useAppContext } from '../context/AppContext'
 import { getNounsData } from '../fetchers/zoraFetcher'
 
@@ -24,15 +23,22 @@ const args = {
 const zdk = new ZDK(args)
 
 function Index(props) {
-  const { activeCollectionIndex, collection, setCollection, setLoading } = useAppContext()
+  const { activeCollectionIndex, collection, setCollection, setLoading, setError } = useAppContext()
+
+  const handleError = useCallback(
+    (error) => {
+      setError(true)
+    },
+    [setError],
+  )
 
   useEffect(() => {
     const getCollection = async () => {
       setLoading(true)
 
-      const nouns = await getNounsData()
+      const nouns = await getNounsData({ onError: handleError })
 
-      setCollection({ tokens: nouns })
+      if (!!nouns) setCollection({ tokens: nouns })
       setLoading(false)
     }
 
@@ -41,7 +47,7 @@ function Index(props) {
 
   return (
     <Container flex={1}>
-      <Hero title={collection?.name} />
+      <Hero />
 
       <Main></Main>
 

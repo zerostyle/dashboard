@@ -7,6 +7,7 @@ export const AppProvider = ({ children }) => {
   const [index, setIndex] = useState<number>(0)
   const [loading, setLoading] = useState<boolean>(false)
   const [collection, setCollection] = useState<any>()
+  const [error, setError] = useState<boolean>(false)
 
   const collectionList = useMemo(() => {
     if (!collection) return []
@@ -30,6 +31,8 @@ export const AppProvider = ({ children }) => {
       setIndex,
       minDate,
       maxDate,
+      error,
+      setError,
     }),
     [
       activeCollectionIndex,
@@ -43,6 +46,8 @@ export const AppProvider = ({ children }) => {
       setIndex,
       minDate,
       maxDate,
+      error,
+      setError,
     ],
   )
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>
