@@ -49,28 +49,30 @@ export function DisplayNFT() {
   }, [slider, index, sliderIndex])
 
   return (
-    <Center position="relative" w="100%" h="100%">
-      <Box position="relative" overflow="hidden" w="100%" h="100%" maxW="70vmin" maxH="70vmin">
-        <Flex ref={sliderRef} className="keen-slider">
-          {!!collectionList?.length &&
-            collectionList.map(({ token }, i) => {
-              return (
-                <MotionImage
-                  key={token?.metadata?.name}
-                  className="keen-slider__slide"
-                  src={token?.metadata?.image}
-                  pos="relative"
-                  w="70vmin"
-                  h="70vmin"
-                  objectFit="cover"
-                  objectPosition="center"
-                />
-              )
-            })}
-        </Flex>
-      </Box>
+    <>
+      <Center position="relative" w="100%" h="100%">
+        <Box position="relative" overflow="hidden" w="100%" h="100%" maxW="70vmin" maxH="70vmin">
+          <Flex ref={sliderRef} className="keen-slider">
+            {!!collectionList?.length &&
+              collectionList.map(({ token }, i) => {
+                return (
+                  <MotionImage
+                    key={token?.metadata?.name}
+                    className="keen-slider__slide"
+                    src={token?.metadata?.image}
+                    pos="relative"
+                    w="70vmin"
+                    h="70vmin"
+                    objectFit="cover"
+                    objectPosition="center"
+                  />
+                )
+              })}
+          </Flex>
+        </Box>
+      </Center>
 
-      <Flex pos="absolute" w="100%" bottom={0}>
+      <Flex pos="fixed" w="100%" bottom={0}>
         <Flex w="100%" justify="space-between" align="center">
           <Button onClick={handlePrev}>
             <Icon as={FaChevronLeft} />
@@ -81,6 +83,6 @@ export function DisplayNFT() {
           </Button>
         </Flex>
       </Flex>
-    </Center>
+    </>
   )
 }
