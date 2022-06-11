@@ -1,5 +1,5 @@
-import { Box, Button, Center, Flex, Icon, Image, Spinner, Text } from '@chakra-ui/react'
-import React, { useCallback, useState } from 'react'
+import { Box, Button, Center, Flex, Icon, Image, Text } from '@chakra-ui/react'
+import React, { useCallback, useState, useEffect } from 'react'
 import { useAppContext } from '../context/AppContext'
 import { FaChevronRight, FaChevronLeft } from 'react-icons/fa'
 import { motion } from 'framer-motion'
@@ -9,28 +9,24 @@ import { useKeenSlider } from 'keen-slider/react'
 
 const MotionImage = motion(Image)
 
-const swipeConfidenceThreshold = 10000
-const swipePower = (offset: number, velocity: number) => {
-  return Math.abs(offset) * velocity
-}
-
-export function DisplayNFT({ initial = 0 }: { initial?: number }) {
-  const { collectionList, loading } = useAppContext()
+export function DisplayNFT() {
+  const { collectionList, loading, index, setIndex } = useAppContext()
 
   const [loaded, setLoaded] = useState<boolean>(false)
-  const [index, setIndex] = useState<number>(0)
   const active = collectionList[index]
 
   const [sliderRef, slider] = useKeenSlider<HTMLDivElement>({
-    initial,
+    initial: 0,
     loop: true,
-    slideChanged(slider) {
-      setIndex(slider.track.details.rel)
-    },
+    slideChanged: (slider) => handleSlideChanged(slider.track.details.rel),
     created() {
       setLoaded(true)
     },
   })
+
+  const sliderIndex = slider.current?.track?.details?.rel
+
+  const handleSlideChanged = useCallback((i) => setIndex(i), [setIndex])
 
   const handlePrev = useCallback(
     (e) => {
@@ -47,6 +43,10 @@ export function DisplayNFT({ initial = 0 }: { initial?: number }) {
     },
     [slider],
   )
+
+  useEffect(() => {
+    if (sliderIndex !== index) slider.current?.moveToIdx(index)
+  }, [slider, index, sliderIndex])
 
   return (
     <Center position="relative" w="100%" h="100%">

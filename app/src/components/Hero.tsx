@@ -2,8 +2,8 @@ import { Flex, Icon } from '@chakra-ui/react'
 import { collections } from '../constants/collections'
 import { useAppContext } from '../context/AppContext'
 
-export function Hero({ title }: { title: string }) {
-  const { activeCollectionIndex, loading } = useAppContext()
+export function Hero() {
+  const { activeCollectionIndex } = useAppContext()
 
   return (
     <Flex
