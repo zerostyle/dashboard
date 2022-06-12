@@ -3,7 +3,6 @@ import React, { useCallback, useState, useEffect } from 'react'
 import { useAppContext } from '../context/AppContext'
 import { FaChevronRight, FaChevronLeft } from 'react-icons/fa'
 import { motion } from 'framer-motion'
-
 import 'keen-slider/keen-slider.min.css'
 import { useKeenSlider } from 'keen-slider/react'
 
@@ -76,6 +75,14 @@ export function DisplayNFT() {
                   />
                 )
               })}
+            <Image
+              src="/loading-skull-noun.gif"
+              pos="relative"
+              w="70vmin"
+              h="70vmin"
+              objectFit={['cover', 'cover', 'contain']}
+              objectPosition="center"
+            />
           </Flex>
         </MotionBox>
       </Center>

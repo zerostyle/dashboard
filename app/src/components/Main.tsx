@@ -1,19 +1,16 @@
-import { Center, Heading, Spinner } from '@chakra-ui/react'
+import { Box, Center, Heading, Image } from '@chakra-ui/react'
 import { useAppContext } from '../context/AppContext'
 import { DisplayNFT } from './DisplayNFT'
-import { DateSelector } from './DateSelector'
+import { motion } from 'framer-motion'
+
+const MotionCenter = motion(Center)
 
 export const Main = () => {
-  const { loading, error } = useAppContext()
+  const { collectionList, loading, error } = useAppContext()
+  console.log('collectionList: ', collectionList)
 
   return (
     <>
-      {loading && (
-        <Center pos="absolute" inset={0}>
-          <Spinner size="xl" />
-        </Center>
-      )}
-
       {error && (
         <Heading textAlign="center">
           Something went wrong.
@@ -23,6 +20,34 @@ export const Main = () => {
       )}
 
       {!loading && !error && <DisplayNFT />}
+
+      {loading && (
+        <>
+          <MotionCenter
+            position="relative"
+            w="100%"
+            h="100%"
+            flex={1}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+          >
+            <Image
+              src="/loading-skull-noun.gif"
+              pos="relative"
+              w="100%"
+              h="100%"
+              maxW="70vmin"
+              maxH="70vmin"
+              objectFit={['cover', 'cover', 'contain']}
+              objectPosition="center"
+              bg="blackAlpha.500"
+            />
+          </MotionCenter>
+
+          <Box h={50} />
+        </>
+      )}
     </>
   )
 }
