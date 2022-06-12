@@ -1,12 +1,10 @@
-import { Hero } from '../components/Hero'
-import { Container } from '../components/Container'
+import { Header } from '../components/Header'
 import { Main } from '../components/Main'
-import { DarkModeSwitch } from '../components/DarkModeSwitch'
-import { Footer } from '../components/Footer'
 import { ZDK, ZDKNetwork, ZDKChain } from '@zoralabs/zdk'
 import { useEffect, useCallback } from 'react'
 import { useAppContext } from '../context/AppContext'
 import { getNounsData } from '../fetchers/zoraFetcher'
+import { Stack } from '@chakra-ui/react'
 
 const networkInfo = {
   network: ZDKNetwork.Ethereum,
@@ -23,7 +21,7 @@ const args = {
 const zdk = new ZDK(args)
 
 function Index(props) {
-  const { activeCollectionIndex, collection, setCollection, setLoading, setError } = useAppContext()
+  const { activeCollectionIndex, setCollection, setLoading, setError } = useAppContext()
 
   const handleError = useCallback(
     (error) => {
@@ -46,15 +44,11 @@ function Index(props) {
   }, [activeCollectionIndex])
 
   return (
-    <Container flex={1}>
-      <Hero />
+    <Stack flex={1} align="center" w="100%" h="100%" gap={4}>
+      <Header />
 
-      <Main></Main>
-
-      <DarkModeSwitch />
-
-      <Footer />
-    </Container>
+      <Main />
+    </Stack>
   )
 }
 

@@ -7,10 +7,10 @@ import { motion } from 'framer-motion'
 import 'keen-slider/keen-slider.min.css'
 import { useKeenSlider } from 'keen-slider/react'
 
-const MotionImage = motion(Image)
+const MotionBox = motion(Box)
 
 export function DisplayNFT() {
-  const { collectionList, loading, index, setIndex } = useAppContext()
+  const { collectionList, index, setIndex } = useAppContext()
 
   const [loaded, setLoaded] = useState<boolean>(false)
   const active = collectionList[index]
@@ -50,35 +50,45 @@ export function DisplayNFT() {
 
   return (
     <>
-      <Center position="relative" w="100%" h="100%">
-        <Box position="relative" overflow="hidden" w="100%" h="100%" maxW="70vmin" maxH="70vmin">
+      <Center position="relative" w="100%" flex={1}>
+        <MotionBox
+          position="relative"
+          overflow="hidden"
+          w="100%"
+          h="100%"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5, delay: 0.5 }}
+        >
           <Flex ref={sliderRef} className="keen-slider">
             {!!collectionList?.length &&
               collectionList.map(({ token }, i) => {
                 return (
-                  <MotionImage
+                  <Image
                     key={token?.metadata?.name}
                     className="keen-slider__slide"
                     src={token?.metadata?.image}
                     pos="relative"
                     w="70vmin"
                     h="70vmin"
-                    objectFit="cover"
+                    objectFit={['cover', 'cover', 'contain']}
                     objectPosition="center"
                   />
                 )
               })}
           </Flex>
-        </Box>
+        </MotionBox>
       </Center>
 
-      <Flex pos="fixed" w="100%" bottom={0}>
+      <Flex w="100%" flex={0} pb={4} px={4}>
         <Flex w="100%" justify="space-between" align="center">
-          <Button onClick={handlePrev}>
+          <Button onClick={handlePrev} w={50} h={50} borderRadius="full">
             <Icon as={FaChevronLeft} />
           </Button>
-          <Text>{active?.token?.metadata?.name}</Text>
-          <Button onClick={handleNext}>
+
+          <Text fontWeight="bold">{active?.token?.metadata?.name}</Text>
+
+          <Button onClick={handleNext} w={50} h={50} borderRadius="full">
             <Icon as={FaChevronRight} />
           </Button>
         </Flex>
