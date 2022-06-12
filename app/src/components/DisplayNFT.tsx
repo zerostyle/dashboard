@@ -68,21 +68,15 @@ export function DisplayNFT() {
                     className="keen-slider__slide"
                     src={token?.metadata?.image}
                     pos="relative"
-                    w="70vmin"
-                    h="70vmin"
+                    w="100%"
+                    h="100%"
+                    maxW="55vmin"
+                    maxH="55vmin"
                     objectFit={['cover', 'cover', 'contain']}
                     objectPosition="center"
                   />
                 )
               })}
-            <Image
-              src="/loading-skull-noun.gif"
-              pos="relative"
-              w="70vmin"
-              h="70vmin"
-              objectFit={['cover', 'cover', 'contain']}
-              objectPosition="center"
-            />
           </Flex>
         </MotionBox>
       </Center>

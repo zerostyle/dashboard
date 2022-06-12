@@ -7,7 +7,6 @@ const MotionCenter = motion(Center)
 
 export const Main = () => {
   const { collectionList, loading, error } = useAppContext()
-  console.log('collectionList: ', collectionList)
 
   return (
     <>
