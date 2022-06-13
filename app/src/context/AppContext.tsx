@@ -1,4 +1,4 @@
-import { first, last, sortBy } from 'lodash'
+import { first, get, last, sortBy } from 'lodash'
 import { createContext, useContext, useMemo, useState } from 'react'
 export const AppContext = createContext(null)
 
@@ -22,8 +22,15 @@ export const AppProvider = ({ children }) => {
     return sorted
   }, [collection])
 
-  const minDate = useMemo(() => first(collectionList)?.mint?.transactionInfo?.blockTimestamp, [collectionList])
-  const maxDate = useMemo(() => last(collectionList)?.mint?.transactionInfo?.blockTimestamp, [collectionList])
+  const minDate = useMemo(() => {
+    const firstDate = first(collectionList)
+    return get(firstDate, 'mint.transactionInfo.blockTimestamp')
+  }, [collectionList])
+
+  const maxDate = useMemo(() => {
+    const lastDate = last(collectionList)
+    return get(lastDate, 'mint.transactionInfo.blockTimestamp')
+  }, [collectionList])
 
   const value = useMemo(
     () => ({

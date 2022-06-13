@@ -7,6 +7,7 @@ import 'keen-slider/keen-slider.min.css'
 import { useKeenSlider } from 'keen-slider/react'
 
 const MotionBox = motion(Box)
+const MotionImage = motion(Image)
 
 export function DisplayNFT() {
   const { collectionList, index, setIndex } = useAppContext()
@@ -17,6 +18,17 @@ export function DisplayNFT() {
   const [sliderRef, slider] = useKeenSlider<HTMLDivElement>({
     initial: 0,
     loop: true,
+    slides: {
+      origin: 'center',
+    },
+    breakpoints: {
+      '(min-width: 1000px)': {
+        slides: { perView: 2, spacing: 15, origin: 'center' },
+      },
+      '(min-width: 1200px)': {
+        slides: { perView: 2, spacing: 100, origin: 'center' },
+      },
+    },
     slideChanged: (slider) => handleSlideChanged(slider.track.details.rel),
     created() {
       setLoaded(true)
@@ -43,6 +55,13 @@ export function DisplayNFT() {
     [slider],
   )
 
+  const handleClick = useCallback(
+    (newIndex) => {
+      slider.current?.moveToIdx(newIndex)
+    },
+    [slider],
+  )
+
   useEffect(() => {
     if (sliderIndex !== index) slider.current?.moveToIdx(index)
   }, [slider, index, sliderIndex])
@@ -63,7 +82,7 @@ export function DisplayNFT() {
             {!!collectionList?.length &&
               collectionList.map(({ token }, i) => {
                 return (
-                  <Image
+                  <MotionImage
                     key={token?.metadata?.name}
                     className="keen-slider__slide"
                     src={token?.metadata?.image}
@@ -74,6 +93,12 @@ export function DisplayNFT() {
                     maxH="55vmin"
                     objectFit={['cover', 'cover', 'contain']}
                     objectPosition="center"
+                    cursor="pointer"
+                    animate={{ opacity: i === index ? 1 : 0.2 }}
+                    whileHover={{ opacity: i === index ? 1 : 0.6 }}
+                    onClick={() => handleClick(i)}
+                    borderRadius={[0, 0, '12px']}
+                    css={{ aspectRatio: 1 }}
                   />
                 )
               })}
