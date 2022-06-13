@@ -11,7 +11,7 @@ export const AppProvider = ({ children }) => {
   const [collection, setCollection] = useState<any>()
   const [error, setError] = useState<boolean>(false)
 
-  const collectionList = useMemo(() => {
+  const collectionList: any = useMemo(() => {
     if (!collection) return []
     const list = Object.keys(collection?.tokens).map((id) => first(collection?.tokens[id]))
     const sorted = sortBy(list, ['mint.transactionInfo.blockTimestamp'])

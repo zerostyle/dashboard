@@ -43,6 +43,8 @@ export function GlobalStyle() {
           display: flex;
           flex-grow: 1;
           flex-shrink: 0;
+
+          min-width: 160px;
         }
         .react-date-picker__inputGroup {
           min-width: calc((4px * 3) + 4.32em + 0.434em);
@@ -74,9 +76,15 @@ export function GlobalStyle() {
           -webkit-appearance: none;
           margin: 0;
         }
+
+        .react-date-picker__inputGroup__leadingZero {
+          font-weight: bold;
+        }
+
         .react-date-picker__inputGroup__input--hasLeadingZero {
           margin-left: -0.54em;
           padding-left: calc(1px + 0.54em);
+          font-weight: bold;
         }
         .react-date-picker__button {
           border: 0;

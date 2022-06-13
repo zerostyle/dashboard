@@ -112,7 +112,9 @@ export function DisplayNFT() {
             <Icon as={FaChevronLeft} />
           </Button>
 
-          <Text fontWeight="bold">{active?.token?.metadata?.name}</Text>
+          <Text fontWeight="bold" fontSize={24}>
+            {active?.token?.metadata?.name}
+          </Text>
 
           <Button onClick={handleNext} w={50} h={50} borderRadius="full">
             <Icon as={FaChevronRight} />

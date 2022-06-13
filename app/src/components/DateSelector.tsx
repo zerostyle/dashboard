@@ -47,6 +47,7 @@ export const DateSelector = () => {
         value={value}
         minDate={new Date(minDate)}
         maxDate={new Date(maxDate)}
+        showLeadingZeros
       />
     </>
   )
