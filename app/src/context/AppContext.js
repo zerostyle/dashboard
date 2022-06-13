@@ -1,17 +1,17 @@
-import { first, get, last, sortBy } from 'lodash'
+import { first, last, sortBy } from 'lodash'
 import { createContext, useContext, useMemo, useState } from 'react'
 export const AppContext = createContext(null)
 
 const initialized = false
 
 export const AppProvider = ({ children }) => {
-  const [activeCollectionIndex, setActiveCollectionIndex] = useState<number>(0)
-  const [index, setIndex] = useState<number>(0)
-  const [loading, setLoading] = useState<boolean>(false)
-  const [collection, setCollection] = useState<any>()
-  const [error, setError] = useState<boolean>(false)
+  const [activeCollectionIndex, setActiveCollectionIndex] = useState(0)
+  const [index, setIndex] = useState(0)
+  const [loading, setLoading] = useState(false)
+  const [collection, setCollection] = useState()
+  const [error, setError] = useState(false)
 
-  const collectionList: any = useMemo(() => {
+  const collectionList = useMemo(() => {
     if (!collection) return []
     const list = Object.keys(collection?.tokens).map((id) => first(collection?.tokens[id]))
     const sorted = sortBy(list, ['mint.transactionInfo.blockTimestamp'])
@@ -24,12 +24,12 @@ export const AppProvider = ({ children }) => {
 
   const minDate = useMemo(() => {
     const firstDate = first(collectionList)
-    return get(firstDate, 'mint.transactionInfo.blockTimestamp')
+    return firstDate?.mint.transactionInfo.blockTimestamp
   }, [collectionList])
 
   const maxDate = useMemo(() => {
     const lastDate = last(collectionList)
-    return get(lastDate, 'mint.transactionInfo.blockTimestamp')
+    return lastDate?.mint.transactionInfo.blockTimestamp
   }, [collectionList])
 
   const value = useMemo(

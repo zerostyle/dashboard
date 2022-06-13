@@ -1,4 +1,4 @@
-import { Box, Button, Center, Flex, Icon, Image, Text } from '@chakra-ui/react'
+import { Box, Button, Center, Flex, Icon, Image, Link, Text } from '@chakra-ui/react'
 import React, { useCallback, useState, useEffect } from 'react'
 import { useAppContext } from '../context/AppContext'
 import { FaChevronRight, FaChevronLeft } from 'react-icons/fa'
@@ -112,9 +112,14 @@ export function DisplayNFT() {
             <Icon as={FaChevronLeft} />
           </Button>
 
-          <Text fontWeight="bold" fontSize={24}>
-            {active?.token?.metadata?.name}
-          </Text>
+          <Link
+            href={`https://zora.co/collections/0x9C8fF314C9Bc7F6e59A9d9225Fb22946427eDC03/${collectionList[sliderIndex]?.mint?.tokenId}`}
+            target="_blank"
+          >
+            <Text fontWeight="bold" fontSize={24}>
+              {active?.token?.metadata?.name}
+            </Text>
+          </Link>
 
           <Button onClick={handleNext} w={50} h={50} borderRadius="full">
             <Icon as={FaChevronRight} />
